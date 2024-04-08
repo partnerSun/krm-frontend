@@ -50,15 +50,15 @@ export const MENU_CONFIG = [
             //     title: "添加用户"
             // },
             {
-                index: "/cluster/list",
+                index: "/schedule/list",
                 title: "获取集群"
             },           
             {
-                index: "/cluster/delete",
+                index: "/schedule/delete",
                 title: "删除集群"
             },
             {
-                index: "/cluster/add",
+                index: "/schedule/add",
                 title: "添加集群"
             },
         ]
@@ -74,15 +74,15 @@ export const MENU_CONFIG = [
             //     title: "添加用户"
             // },
             {
-                index: "/cluster/list",
+                index: "/service/list",
                 title: "获取集群"
             },           
             {
-                index: "/cluster/delete",
+                index: "/service/delete",
                 title: "删除集群"
             },
             {
-                index: "/cluster/add",
+                index: "/service/add",
                 title: "添加集群"
             },
         ]
@@ -99,15 +99,15 @@ export const MENU_CONFIG = [
             //     title: "添加用户"
             // },
             {
-                index: "/cluster/list",
+                index: "/config/list",
                 title: "获取集群"
             },           
             {
-                index: "/cluster/delete",
+                index: "/config/delete",
                 title: "删除集群"
             },
             {
-                index: "/cluster/add",
+                index: "/config/add",
                 title: "添加集群"
             },
         ]
@@ -123,15 +123,15 @@ export const MENU_CONFIG = [
             //     title: "添加用户"
             // },
             {
-                index: "/cluster/list",
+                index: "/storage/list",
                 title: "集群"
             },           
             {
-                index: "/cluster/delete",
+                index: "/storage/delete",
                 title: "删除集群"
             },
             {
-                index: "/cluster/add",
+                index: "/storage/add",
                 title: "添加集群"
             },
         ]
@@ -147,15 +147,15 @@ export const MENU_CONFIG = [
             //     title: "添加用户"
             // },
             {
-                index: "/cluster/list",
+                index: "/tools/list",
                 title: "获取集群"
             },           
             {
-                index: "/cluster/delete",
+                index: "/tools/delete",
                 title: "删除集群"
             },
             {
-                index: "/cluster/add",
+                index: "/tools/add",
                 title: "添加集群"
             },
         ]

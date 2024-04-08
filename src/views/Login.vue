@@ -46,7 +46,7 @@ const submitForm = () =>{
   login(loginInfo.username,loginInfo.pass)
   .then((response) => {
       //打印是否登录
-    console.log("登录成功，response:",response)
+    console.log("登录组件，response:",response)
     // response.status http请求的状态,axios自动返回的
     // response.data.status 后端返回的状态，需要后端提供data.status
     if ( response.data.status == 200 ){

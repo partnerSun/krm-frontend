@@ -1,7 +1,9 @@
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
+console.log("base url",BASE_URL)
 export const API_CONFIG  = {
-    loginApi: "https://mock.mengxuegu.com/mock/65cf63a8351bbd02cf3398ab/api/auth/login",
+    // loginApi: "https://mock.mengxuegu.com/mock/65cf63a8351bbd02cf3398ab/api/auth/login",
+    loginApi: `${BASE_URL}/auth/login`,
     logoutApi: "https://mock.mengxuegu.com/mock/65cf63a8351bbd02cf3398ab/api/auth/logout",
     userListApi: "https://mock.mengxuegu.com/mock/65d498da351bbd02cf339bad/vueapi/user/list",
     userDelApi: "https://mock.mengxuegu.com/mock/65d498da351bbd02cf339bad/vueapi/user/delete",

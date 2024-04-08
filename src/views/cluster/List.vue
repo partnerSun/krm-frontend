@@ -1,6 +1,6 @@
 <script  setup>
-import {getClusterListHandler} from '../../api/cluster.js';
-import {getUserListHandler} from '../../api/user.js';
+import {getClusterListHandler,delClusterHandler} from '../../api/cluster.js';
+
 import { ElMessage, ElMessageBox } from 'element-plus';
 import {reactive,toRefs,onBeforeMount,ref } from 'vue'
 import Add from './Add.vue';
@@ -11,25 +11,27 @@ const loading = ref(true)
 
 const data = reactive({
   items: [],
-  userForm:{
-    username: '',
-    qq: '',
-    address: '',
+  clusterForm:{
+    id: '',
+    displayname: '',
+    area: '',
+    city: '',
+    kubeconfig: '',
   },
 })
 const defaultMethod=ref('Create')
-//获取用户列表
-const getUser = () =>{
+
+const getClusterList = () =>{
   loading.value=true
-  getUserListHandler()
+  getClusterListHandler()
     .then((response) => {
         // 获取成功提示
         // ElMessage({
         //   message: response.data.message,
         //   type: 'success',
         // })
-        data.items = response.data.data.items
-        // console.log("用户信息",userList)
+        console.log("集群列表",response.data.Data.items)
+        data.items = response.data.Data.items
         //当拿到数据后，停止刷新的动作
         loading.value=false
 
@@ -39,19 +41,21 @@ const getUser = () =>{
 }
 
 const closeRefresh = () =>{
-  getUser()
+  // getUser()
+  getClusterList()
 }
-const {items,userForm} = toRefs(data)
+const {items,clusterForm} = toRefs(data)
 
 // 使用生命周期，在打开页面时自动加载数据
 onBeforeMount(() => {
-    getUser()
+    // getUser()
+    getClusterList()
 })
 
-//删除用户+弹窗提示
-const delUser = (row) => {
+//删除集群+弹窗提示
+const delCluster = (row) => {
   ElMessageBox.confirm(
-    '确认删除用户 '+row.username+' 吗',
+    '确认删除集群 '+row.displayname+' 吗',
     'Warning',
     {
       confirmButtonText: 'OK',
@@ -65,7 +69,7 @@ const delUser = (row) => {
     loading.value=true
     // console.log("刷新状态-删除用户-前",loading.value)
     // 调用删除用户方法
-    delUserHandler(row.id)
+    delClusterHandler(row.id)
       .then((response) => {
         // console.log("获取成功，response:",response)
         ElMessage({
@@ -73,7 +77,7 @@ const delUser = (row) => {
           type: 'success',
         })
         // console.log("用户信息",userList)
-        getUser()
+        getClusterList()
         //当拿到数据后，停止刷新的动作
         loading.value=false
 
@@ -88,16 +92,17 @@ const delUser = (row) => {
 
 }
 //添加用户，使用dialog组件
-const addUser = () =>{
+const addCluster = () =>{
+  data.clusterForm={}
   dialogFormVisible.value=true
   defaultMethod.value='Create'
 }
 
 //编辑、更新用户，使用dialog组件
-const editUser = (row) =>{
+const editCluster = (row) =>{
   dialogFormVisible.value=true
   defaultMethod.value='Edit'
-  data.userForm=row
+  data.clusterForm=row
 }
 
 const callback = () =>{
@@ -111,8 +116,8 @@ const callback = () =>{
 
     <template #header>
       <div class="card-header">
-        <span>用户列表</span>
-        <el-button text bg @click="addUser()">添加用户</el-button>
+        <span>集群列表</span>
+        <el-button text bg @click="addCluster()">添加集群</el-button>
       </div>
     </template>
 
@@ -125,15 +130,17 @@ const callback = () =>{
       :default-sort="{ prop: 'id', order: 'inscending' }"
     >
       <!-- <el-table v-for="(userinfo) in userList" :key="userinfo.id" :data="userinfo" style="width: 100%">  -->
-      <el-table-column prop="id" label="Id" sortable  width="180" />
-      <el-table-column prop="username" label="Name" width="180" />
-      <el-table-column prop="qq" label="QQ" width="180" />
-      <el-table-column prop="address" label="Address" />
+      <el-table-column prop="id" label="集群Id" sortable  width="180" />
+      <el-table-column prop="displayname" label="集群名称" width="180" />
+      <el-table-column prop="city" label="所在城市" width="180" />
+      <el-table-column prop="area" label="所在区" />
+      <el-table-column prop="Version" label="集群版本" />
+      <el-table-column prop="Status" label="状态" />
       <el-table-column fixed="right" label="Operations">
         <!-- scope绑定当前操作的行 -->
         <template #default="scope">
-          <el-button link type="primary" size="small" @click="editUser(scope.row)">编辑</el-button>
-          <el-button link type="primary" size="small" @click="delUser(scope.row)">删除</el-button>
+          <el-button link type="primary" size="small" @click="editCluster(scope.row)">编辑</el-button>
+          <el-button link type="primary" size="small" @click="delCluster(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -144,12 +151,12 @@ const callback = () =>{
     @closed="closeRefresh()" 
     v-model="dialogFormVisible" 
     destroy-on-close
-    :title="defaultMethod=='Create'?'添加用户':'更新用户'" 
+    :title="defaultMethod=='Create'?'添加集群':'更新集群'" 
     width="20%"
   >
     <!-- 触发事件 -->
     <!-- <Add @callback="getUser"></Add> -->
-    <Add :userForm="userForm" :method="defaultMethod" @callback="callback()"></Add> 
+    <Add :clusterForm="clusterForm" :method="defaultMethod" @callback="callback()"></Add> 
   </el-dialog>
 
   
