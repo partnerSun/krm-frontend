@@ -74,7 +74,7 @@ const rules = reactive({
     ]
     ,
     place: [
-      { required: true,  trigger: 'blur' },
+      { required: false,  trigger: 'blur' },
       // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
     ]
 })
@@ -97,10 +97,18 @@ const submit = () =>{
             .then((response)=>{
                 ElMessage({
                 message: response.data.Message,
-                type: 'success',
+                type: response.data.Type,
                 })
                 loading.value=false
             })
+            // .catch(() => {
+            //     ElMessage({
+            //     message: response.data.Message,
+            //     type: 'error',
+            //     })
+            //     loading.value=false
+            // }
+            // )
         }else if (props.method=="Edit"){
             updateClusterHandler(data.clusterForm)
             .then((response)=>{
@@ -145,7 +153,7 @@ const submit = () =>{
                 <el-input v-model="clusterForm.displayname" autocomplete="off" placeholder="请输入集群名称"/>
             </el-form-item>
 
-            <el-form-item  prop="place" label="位置" label-width="78px" >
+            <el-form-item  label="位置" label-width="78px" >
                 <el-col :span="8">
                     <el-form-item class="col-form-item" prop="city" >
                         <el-input v-model="clusterForm.city" autocomplete="off" placeholder="城市"/>

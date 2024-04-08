@@ -12,9 +12,9 @@ export const getClusterHandler = (id) =>{
     return request(API_CONFIG.getClusterApi,{id},'get',2000)
 }
 
-export const delClusterHandler = (id) =>{
-     console.log('删除集群：',id)
-    return request(API_CONFIG.deleteClusterApi,{id},'post',2000)
+export const delClusterHandler = (clusterid) =>{
+     console.log('删除集群：',clusterid)
+    return request(API_CONFIG.deleteClusterApi,{clusterid},'get',2000)
 }
 
 export const addClusterHandler = (data) =>{

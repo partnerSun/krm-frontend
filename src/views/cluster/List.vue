@@ -25,12 +25,7 @@ const getClusterList = () =>{
   loading.value=true
   getClusterListHandler()
     .then((response) => {
-        // 获取成功提示
-        // ElMessage({
-        //   message: response.data.message,
-        //   type: 'success',
-        // })
-        console.log("集群列表",response.data.Data.items)
+        // console.log("集群列表",response.data.Data)
         data.items = response.data.Data.items
         //当拿到数据后，停止刷新的动作
         loading.value=false
@@ -64,19 +59,17 @@ const delCluster = (row) => {
     }
   )
   .then(() => {
-    console.log("当前删除行：",row)
+    // console.log("当前删除行：",row.id)
     // 刷新开关
     loading.value=true
-    // console.log("刷新状态-删除用户-前",loading.value)
-    // 调用删除用户方法
+    // 调用删除
     delClusterHandler(row.id)
       .then((response) => {
         // console.log("获取成功，response:",response)
         ElMessage({
-          message: response.data.message,
+          message: response.data.Message,
           type: 'success',
         })
-        // console.log("用户信息",userList)
         getClusterList()
         //当拿到数据后，停止刷新的动作
         loading.value=false
