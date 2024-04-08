@@ -146,13 +146,13 @@ const callback = () =>{
     </el-table>
   </el-card>
 
-  <!-- 添加用户,关闭窗口时触发重新获取用户列表的事件 -->
+  <!-- 添加时的弹窗,关闭窗口时触发重新获取列表的事件 -->
   <el-dialog 
     @closed="closeRefresh()" 
     v-model="dialogFormVisible" 
     destroy-on-close
     :title="defaultMethod=='Create'?'添加集群':'更新集群'" 
-    width="20%"
+    width="40%"
   >
     <!-- 触发事件 -->
     <!-- <Add @callback="getUser"></Add> -->

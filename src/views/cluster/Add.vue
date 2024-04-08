@@ -64,12 +64,17 @@ const rules = reactive({
     ]
     ,
     city: [
-      { required: true, message: '请输入集群所在城市', trigger: 'blur' },
+      { required: true, message: '请输入所在城市', trigger: 'blur' },
       // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
     ]
     ,
     kubeconfig: [
-      { required: true, message: '请输入集群配置', trigger: 'blur' },
+      { required: true, message: '请输入config配置', trigger: 'blur' },
+      // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+    ]
+    ,
+    place: [
+      { required: true,  trigger: 'blur' },
       // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
     ]
 })
@@ -129,21 +134,38 @@ const submit = () =>{
     :rules="rules"
     
     >
-    <el-form-item class="form-item" prop="id" label="集群id" label-width="84px">
-        <el-input v-model="clusterForm.id" autocomplete="off" placeholder="Please input"/>
-    </el-form-item>
+    <div class="div-form">
+        <div>
+            <!-- 集群信息 -->
+            <el-form-item class="form-item" prop="id" label="集群ID" label-width="84px">
+                <el-input v-model="clusterForm.id" autocomplete="off" placeholder="请输入集群ID"/>
+            </el-form-item>
 
-    <el-form-item class="form-item" prop="displayname" label="集群名称" label-width="84px">
-        <el-input v-model="clusterForm.displayname" autocomplete="off"/>
-    </el-form-item>
+            <el-form-item class="form-item" prop="displayname" label="集群名称" label-width="84px">
+                <el-input v-model="clusterForm.displayname" autocomplete="off" placeholder="请输入集群名称"/>
+            </el-form-item>
 
-    <el-form-item class="form-item" prop="area" label="所在区" label-width="84px">
-        <el-input v-model="clusterForm.area" autocomplete="off"/>
-    </el-form-item>
-
-    <el-form-item class="form-item" prop="city" label="所在城市" label-width="84px">
-        <el-input v-model="clusterForm.city" autocomplete="off"/>
-    </el-form-item>
+            <el-form-item  prop="place" label="位置" label-width="78px" >
+                <el-col :span="8">
+                    <el-form-item class="col-form-item" prop="city" >
+                        <el-input v-model="clusterForm.city" autocomplete="off" placeholder="城市"/>
+                    </el-form-item>
+                </el-col>
+                <span> - </span>
+                <el-col :span="8">
+                    <el-form-item class="col-form-item" prop="area" >
+                        <el-input v-model="clusterForm.area" autocomplete="off" placeholder="所在区"/>
+                    </el-form-item>
+                </el-col>
+            </el-form-item>
+        </div>
+        <div>
+            <!-- kubeconfig -->
+            <el-form-item class="form-item-config" prop="kubeconfig" label-width="84px">
+                <el-input v-model="clusterForm.kubeconfig" autocomplete="off" placeholder="kubeconfig" type="textarea" :rows="6" style="width: 300px;"/>
+            </el-form-item>
+        </div>
+    </div>
 
     </el-form>
     <span>
@@ -157,7 +179,18 @@ const submit = () =>{
 
 <style>
 .form-item{
-    width: 85%;
-    margin: 20px auto;
+    width: 75%;
+    margin: 20px 0;
+}
+.form-item-config{
+    /* width: 85%; */
+    margin: 20px 0;
+}
+.col-form-item{
+    margin: 0 5px;
+}
+.div-form{
+    display: flex;
+
 }
 </style>
