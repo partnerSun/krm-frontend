@@ -121,14 +121,14 @@ const callback = () =>{
       style="width: 100%" 
       height="450"
       :default-sort="{ prop: 'id', order: 'inscending' }"
-    >
+      >
       <!-- <el-table v-for="(userinfo) in userList" :key="userinfo.id" :data="userinfo" style="width: 100%">  -->
       <el-table-column prop="id" label="集群Id" sortable  width="180" />
       <el-table-column prop="displayname" label="集群名称" width="180" />
       <el-table-column prop="city" label="所在城市" width="180" />
       <el-table-column prop="area" label="所在区" />
-      <el-table-column prop="Version" label="集群版本" />
-      <el-table-column prop="Status" label="状态" />
+      <el-table-column prop="version" label="集群版本" />
+      <el-table-column prop="status" label="状态" />
       <el-table-column fixed="right" label="Operations">
         <!-- scope绑定当前操作的行 -->
         <template #default="scope">
