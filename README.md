@@ -11,3 +11,27 @@ npm install element-plus --save
 npm install @element-plus/icons-vue
 npm install -D less
 ```
+
+## 平台样式
+![示例图片](images/image.png)
+
+## 构建部署
+* 开发
+```shell
+npm install
+npm run dev
+```
+* 生产
+```shell
+npm install
+npm run build
+```
+## 其他
+* 环境变量
+vite.config.js:
+defineConfig.enDir
+* 跨域
+vite.config.js:
+defineConfig.server
+
+api地址与前端地址相同, 使用server.proxy转发到实际后端地址
