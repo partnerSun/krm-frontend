@@ -111,7 +111,7 @@ const submit = () =>{
         <div>
             <!-- ns信息 -->
             <el-form-item class="form-item" prop="name" label="名称" label-width="84px">
-                <el-input v-model="namespaceForm.name" autocomplete="off" placeholder="请输入集群ID" />
+                <el-input v-model="namespaceForm.name" autocomplete="off" placeholder="namespace" />
             </el-form-item>
 
         </div>
@@ -129,18 +129,13 @@ const submit = () =>{
 
 <style>
 .form-item{
-    width: 75%;
-    margin: 20px 0;
+    width: 85%;
+    margin: 30px auto;
 }
-.form-item-config{
-    /* width: 85%; */
-    margin: 20px 0;
-}
-.col-form-item{
-    margin: 0 5px;
-}
+
+
 .div-form{
     display: flex;
-
+    height: 100px;
 }
 </style>

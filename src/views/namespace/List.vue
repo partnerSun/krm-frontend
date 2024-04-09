@@ -153,7 +153,8 @@ const callback = () =>{
     v-model="dialogFormVisible" 
     destroy-on-close
     :title="defaultMethod=='Create'?'创建命名空间':'更新命名空间'" 
-    width="20%">
+    width="20%"
+    >
     
     <!-- 触发事件 -->
     <Add :namespaceForm="namespaceForm" :method="defaultMethod" @callback="callback()"></Add> 
