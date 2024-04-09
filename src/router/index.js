@@ -1,7 +1,8 @@
 import {createWebHashHistory,createRouter} from 'vue-router'
 import {CONFIG} from '../config/index.js'
 import {userRoutes} from './user.js'
-import {clusterRoutes} from './cluster.js'
+import {clusterRoutes,nodeRoutes} from './cluster.js'
+import { namespaceRoutes } from './namespace.js'
 
 
 
@@ -15,7 +16,9 @@ const routes = [
     { path: '/login', component: Login },
     { path: '/', component: Layout },
     userRoutes,
-    clusterRoutes
+    clusterRoutes,
+    nodeRoutes,
+    namespaceRoutes
 ]
 
 // 3. 创建路由实例 并传递 `routes` 配置

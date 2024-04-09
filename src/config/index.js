@@ -18,6 +18,9 @@ export const API_CONFIG  = {
     getNodeListApi: `${BASE_URL}/node/list`,
     // ns
     getNamespaceListApi: `${BASE_URL}/namespace/list`,
+    addNamespaceApi: `${BASE_URL}/namespace/create`,
+    updateNamespaceApi: `${BASE_URL}/namespace/update`,
+    deleteNamespaceApi: `${BASE_URL}/namespace/delete`,
 }
 
 export const CONFIG = {
