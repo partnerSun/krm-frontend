@@ -2,7 +2,7 @@
 
 This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-## 基本组件安装
+## 基本组件
 ```shell
 npm install vite@latest
 npm install axios@latest
@@ -34,4 +34,4 @@ defineConfig.enDir
 vite.config.js:
 defineConfig.server
 
-api地址与前端地址相同, 使用server.proxy转发到实际后端地址
+**使api地址与前端地址相同, 再通过server.proxy转发到实际后端地址**
