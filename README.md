@@ -13,7 +13,7 @@ npm install -D less
 ```
 
 ## 平台样式
-![示例图片](images/image.png)
+![示例图片](images/platform.png)
 
 ## 构建部署
 * 开发
