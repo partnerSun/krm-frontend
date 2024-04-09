@@ -161,8 +161,8 @@ const submit = () =>{
         </div>
         <div>
             <!-- kubeconfig -->
-            <el-form-item class="form-item-config" prop="kubeconfig" label-width="84px">
-                <el-input v-model="clusterForm.kubeconfig" autocomplete="off" placeholder="kubeconfig" type="textarea" :rows="6" style="width: 300px;"/>
+            <el-form-item class="form-item-config" prop="kubeconfig" label-width="0px">
+                <el-input v-model="clusterForm.kubeconfig" autocomplete="off" placeholder="kubeconfig" type="textarea" :rows="6" />
             </el-form-item>
         </div>
     </div>
@@ -185,6 +185,7 @@ const submit = () =>{
 .form-item-config{
     /* width: 85%; */
     margin: 20px 0;
+    width: 400px;
 }
 .col-form-item{
     margin: 0 5px;
