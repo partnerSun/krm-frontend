@@ -1,6 +1,5 @@
 <script  setup>
 import { reactive,ref,toRefs,onMounted } from 'vue';
-import {addUserHandler, updateUserHandler} from '../../api/user.js';
 import {addClusterHandler, updateClusterHandler} from '../../api/cluster.js';
 import { ElMessage } from 'element-plus';
 
@@ -96,27 +95,19 @@ const submit = () =>{
             addClusterHandler(data.clusterForm)
             .then((response)=>{
                 ElMessage({
-                message: response.data.Message,
-                type: response.data.Type,
+                    message: response.data.Message,
+                    type: response.data.Type,
                 })
                 loading.value=false
             })
-            // .catch(() => {
-            //     ElMessage({
-            //     message: response.data.Message,
-            //     type: 'error',
-            //     })
-            //     loading.value=false
-            // }
-            // )
+
         }else if (props.method=="Edit"){
             updateClusterHandler(data.clusterForm)
             .then((response)=>{
                 ElMessage({
-                message: response.data.Message,
-                type: 'success',
+                    message: response.data.Message,
+                    type: response.data.Type,
                 })
-
                 loading.value=false
                 emit('callback')
             }) 
@@ -146,7 +137,8 @@ const submit = () =>{
         <div>
             <!-- 集群信息 -->
             <el-form-item class="form-item" prop="id" label="集群ID" label-width="84px">
-                <el-input v-model="clusterForm.id" autocomplete="off" placeholder="请输入集群ID"/>
+                <el-input v-if="props.method === 'Create'" v-model="clusterForm.id" autocomplete="off" placeholder="请输入集群ID" />
+                <el-input v-else v-model="clusterForm.id" autocomplete="off" placeholder="请输入集群ID" disabled />
             </el-form-item>
 
             <el-form-item class="form-item" prop="displayname" label="集群名称" label-width="84px">

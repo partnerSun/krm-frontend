@@ -25,11 +25,16 @@ const getClusterList = () =>{
   loading.value=true
   getClusterListHandler()
     .then((response) => {
-        // console.log("集群列表",response.data.Data)
-        data.items = response.data.Data.items
-        //当拿到数据后，停止刷新的动作
-        loading.value=false
-
+        console.log("集群列表",response.data.Data)
+        if (response.data.Data.items === null ){
+          loading.value = false;
+          return;
+        }
+        else{
+          data.items = response.data.Data.items
+          //当拿到数据后，停止刷新的动作
+          loading.value=false
+        }        
     })
      //.catch错误在守卫中处理
   
