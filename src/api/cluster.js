@@ -3,7 +3,7 @@ import request from './index.js'
 
 
 export const getClusterListHandler = () =>{
-
+    console.log('集群列表')
     return request(API_CONFIG.getClusterListApi,{},'get',2000)
 }
 
@@ -29,7 +29,7 @@ export const updateClusterHandler = (data) =>{
  }
 
 //  节点
-export const getNodeListHandler = () =>{
+export const getNodeListHandler = (clusterId) =>{
     console.log("获取节点")
-    return request(API_CONFIG.getNodeListApi,{},'get',2000)
+    return request(API_CONFIG.getNodeListApi,{clusterId},'get',2000)
 }

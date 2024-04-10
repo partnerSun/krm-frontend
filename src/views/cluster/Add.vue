@@ -177,7 +177,7 @@ const submit = () =>{
     </span>
 </template>
 
-<style>
+<style scoped> 
 .form-item{
     width: 75%;
     margin: 20px 0;
@@ -192,6 +192,6 @@ const submit = () =>{
 }
 .div-form{
     display: flex;
-
+    height: 200px;
 }
 </style>

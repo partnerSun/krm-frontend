@@ -2,7 +2,7 @@ namespaceForm<script  setup>
 import {getNamespaceListHandler,delNamespaceHandler} from '../../api/namespace.js';
 
 import { ElMessage, ElMessageBox } from 'element-plus';
-import {reactive,toRefs,onBeforeMount,ref } from 'vue'
+import {reactive,toRefs,onBeforeMount,ref,computed  } from 'vue'
 import Add from './Add.vue';
 
 const dialogFormVisible = ref(false)
@@ -113,7 +113,7 @@ const callback = () =>{
     <template #header>
       <div class="card-header">
         <span>命名空间列表</span>
-        <el-button text bg @click="addNamespace()">创建命名空间</el-button>
+        <el-button color="#626aef" @click="addNamespace()">创建命名空间</el-button>
       </div>
     </template>
 
@@ -122,26 +122,26 @@ const callback = () =>{
       :data="items" 
       border 
       style="width: 100%" 
-      height="450"
+      height="550"
       :default-sort="{ prop: 'id', order: 'inscending' }"
       >
       <!-- <el-table v-for="(userinfo) in userList" :key="userinfo.id" :data="userinfo" style="width: 100%">  -->
-      <el-table-column prop="name" label="名称" sortable  width="220"/>
+      <el-table-column prop="name" label="名称" sortable  width="220" align="center"/>
         
       
-      <el-table-column prop="uid" label="UID" width="460" />
-      <el-table-column prop="status" label="状态" width="180">
+      <el-table-column prop="uid" label="UID" width="460"  align="center"/>
+      <el-table-column prop="status" label="状态" width="180" align="center">
         <template #default="scope">
           <el-text v-if='scope.row.status == "Active"' type="success">{{scope.row.status}}</el-text>
           <el-text v-else  type="danger">{{scope.row.status}}</el-text>
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" label="Operations">
+      <el-table-column fixed="right" label="Operations" align="center">
         <!-- scope绑定当前操作的行 -->
         <template #default="scope">
           <el-button link type="primary" size="small" @click="editNamespace(scope.row)">编辑</el-button>
-          <el-button link type="primary" size="small" @click="delNamespace(scope.row)">删除</el-button>
+          <el-button link type="danger" size="small" @click="delNamespace(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -163,7 +163,7 @@ const callback = () =>{
   
 </template>
 
-<style>
+<style scoped>
 .card-header {
   display: flex;
   justify-content: space-between;

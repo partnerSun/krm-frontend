@@ -127,7 +127,7 @@ const submit = () =>{
     </span>
 </template>
 
-<style>
+<style scoped>
 .form-item{
     width: 85%;
     margin: 30px auto;

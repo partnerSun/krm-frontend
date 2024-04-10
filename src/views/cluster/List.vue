@@ -21,7 +21,7 @@ const data = reactive({
 })
 const defaultMethod=ref('Create')
 
-const getClusterList = () =>{
+ const getClusterList = () =>{
   loading.value=true
   getClusterListHandler()
     .then((response) => {
@@ -115,7 +115,7 @@ const callback = () =>{
     <template #header>
       <div class="card-header">
         <span>集群列表</span>
-        <el-button text bg @click="addCluster()">添加集群</el-button>
+        <el-button   color="#626aef"  @click="addCluster()">添加集群</el-button>
       </div>
     </template>
 
@@ -128,22 +128,22 @@ const callback = () =>{
       :default-sort="{ prop: 'id', order: 'inscending' }"
       >
       <!-- <el-table v-for="(userinfo) in userList" :key="userinfo.id" :data="userinfo" style="width: 100%">  -->
-      <el-table-column prop="id" label="集群ID" sortable  width="180" />
-      <el-table-column prop="displayname" label="集群名称" width="180" />
-      <el-table-column prop="city" label="所在城市" width="180" />
-      <el-table-column prop="area" label="所在区" />
-      <el-table-column prop="version" label="集群版本" />
-      <el-table-column prop="status" label="状态" >
+      <el-table-column prop="id" label="集群ID" sortable  width="180" align="center" />
+      <el-table-column prop="displayname" label="集群名称" width="180" align="center"/>
+      <el-table-column prop="city" label="所在城市" width="180" align="center"/>
+      <el-table-column prop="area" label="所在区" align="center" />
+      <el-table-column prop="version" label="集群版本" align="center"/>
+      <el-table-column prop="status" label="状态" align="center">
         <template #default="scope">
             <el-text v-if='scope.row.status == "Active"' type="success">{{scope.row.status}}</el-text>
             <el-text v-else  type="danger">{{scope.row.status}}</el-text>
           </template>
       </el-table-column>
-      <el-table-column fixed="right" label="Operations">
+      <el-table-column fixed="right" label="Operations" align="center">
         <!-- scope绑定当前操作的行 -->
         <template #default="scope">
           <el-button link type="primary" size="small" @click="editCluster(scope.row)">编辑</el-button>
-          <el-button link type="primary" size="small" @click="delCluster(scope.row)">删除</el-button>
+          <el-button link type="danger" size="small" @click="delCluster(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -165,7 +165,7 @@ const callback = () =>{
   
 </template>
 
-<style>
+<style scoped>
 .card-header {
   display: flex;
   justify-content: space-between;
