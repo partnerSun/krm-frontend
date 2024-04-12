@@ -1,7 +1,7 @@
 <script  setup>
 import { useRoute } from 'vue-router';
 import {getNodeListHandler,getClusterListHandler} from '../../api/cluster.js';
-
+import NodeInfo from './NodeInfo.vue';
 // import { ElMessage, ElMessageBox } from 'element-plus';
 import {reactive,toRefs,onBeforeMount,ref,computed } from 'vue'
 
@@ -18,17 +18,10 @@ const data = reactive({
   items: [],
   clusterList: [],
   clusterId: "",
-  nodeForm:{
-    name: '',
-    ip: '',
-    roles: '',
-    status: '',
-    scheduleStatus: '',
-    drain:''
-  },
+  labelForm:{},
 })
 
-const {items,nodeForm,clusterList,clusterId} = toRefs(data)
+const {items,labelForm,clusterList,clusterId} = toRefs(data)
 
 const getNodeList = (id) =>{
   loading.value=true
@@ -60,7 +53,7 @@ const  getClusterList = async() => {
 
 const closeRefresh = () =>{
   //
-  getNodeList()
+  getNodeList(data.clusterId)
 }
 
 
@@ -92,7 +85,8 @@ const filterTableData = computed(() =>
 const configInfo = (row) =>{
   dialogFormVisible.value=true
   defaultMethod.value='Edit'
-  data.nodeForm=row
+  data.labelForm=row.metadata.labels
+  console.log("节点标签内容:",data.labelForm)
 }
 
  
@@ -106,13 +100,13 @@ const configInfo = (row) =>{
           <span>节点列表</span>
           <div class="div-header">
 
-            <span style="margin-left: 20px;"><el-input v-model="search" size="large" placeholder="搜索" style="width: 120px;"/></span>
+            <span style="margin-left: 16px;"><el-input v-model="search" size="small" placeholder="搜索" style="width: 120px;"/></span>
             <!-- 与clusterId双写绑定，当选择发生变化时 使用change方法触发request请求 -->
             <el-select
               v-model="clusterId"
               placeholder="Select"
-              size="large"
-              style="width: 180px" 
+              size="small"
+              style="width: 120px" 
               @change="getNodeList(clusterId)"
             >
               <!-- 获取选项的值 并通过:value传给el-select的v-model -->
@@ -183,7 +177,19 @@ const configInfo = (row) =>{
     </el-table>
   </el-card>
 
-  
+    <!-- 添加时的弹窗,关闭窗口时触发重新获取列表的事件 -->
+    <el-dialog 
+    @closed="closeRefresh()" 
+    v-model="dialogFormVisible" 
+    destroy-on-close
+    :title="defaultMethod=='Create'?'添加集群':'更新集群'" 
+    width="40%"
+    >
+    <!-- 触发事件 -->
+    <!-- <Add @callback="getUser"></Add> -->
+    <NodeInfo :labelForm="labelForm"  @callback="callback()"></NodeInfo> 
+  </el-dialog>
+
 </template>
 
 <style scoped>
