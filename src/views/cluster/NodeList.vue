@@ -11,6 +11,7 @@ const route=useRoute()
 const loading = ref(true)
 const search = ref('')
 const value1 = ref(true)
+const value = ref('')
 const defaultMethod=ref('Create')
 
 const data = reactive({
@@ -27,7 +28,7 @@ const data = reactive({
   },
 })
 
-const {items,nodeForm} = toRefs(data)
+const {items,nodeForm,clusterList,clusterId} = toRefs(data)
 
 const getNodeList = (id) =>{
   loading.value=true
@@ -52,6 +53,7 @@ const  getClusterList = async() => {
     .then(      
       (response) => {
         data.clusterList=response.data.Data.items
+        console.log("集群列表",data.clusterList)
       }
     )
 }
@@ -101,9 +103,28 @@ const configInfo = (row) =>{
 
     <template #header>
       <div class="card-header">
-        <span>节点列表</span>
-        <!-- <el-button text bg @click="addCluster()">添加集群</el-button> -->
-        <span><el-input v-model="search" size="small" placeholder="搜索" /></span>
+          <span>节点列表</span>
+          <div class="div-header">
+
+            <span style="margin-left: 20px;"><el-input v-model="search" size="large" placeholder="搜索" style="width: 120px;"/></span>
+            <!-- 与clusterId双写绑定，当选择发生变化时 使用change方法触发request请求 -->
+            <el-select
+              v-model="clusterId"
+              placeholder="Select"
+              size="large"
+              style="width: 180px" 
+              @change="getNodeList(clusterId)"
+            >
+              <!-- 获取选项的值 并通过:value传给el-select的v-model -->
+              <el-option
+                v-for="item in clusterList"
+                :key="item.id"
+                :label="item.displayname"
+                :value="item.id"
+                :disabled="item.status != 'Active'"
+              />
+            </el-select>
+          </div>
       </div>
     </template>
 
@@ -170,5 +191,14 @@ const configInfo = (row) =>{
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.div-header {
+  display: flex;
+  /* justify-content: space-between; */
+  flex-direction: row-reverse;
+  align-items: center;
+  width: 500px;
+
 }
 </style>

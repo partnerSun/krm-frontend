@@ -1,20 +1,20 @@
 export const MENU_CONFIG = [
-    {
-        title: "用户管理",
-        index: "/uesr",
-        icon: "iconfont icon-yonghuguanli",
-        // 
-        items: [
-            // {
-            //     index: "/user/add",
-            //     title: "添加用户"
-            // },
-            {
-                index: "/user/list",
-                title: "查看用户"
-            }
-        ]
-    },
+    // {
+    //     title: "用户管理",
+    //     index: "/uesr",
+    //     icon: "iconfont icon-yonghuguanli",
+    //     // 
+    //     items: [
+    //         // {
+    //         //     index: "/user/add",
+    //         //     title: "添加用户"
+    //         // },
+    //         {
+    //             index: "/user/list",
+    //             title: "查看用户"
+    //         }
+    //     ]
+    // },
     {
         title: "集群资源",
         index: "/cluster",

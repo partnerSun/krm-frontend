@@ -45,16 +45,17 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   });
 
-    // 添加响应拦截器
-    //判断登录状态是否失效
-    //状态码是200还是401,
-    //如果是401，删除本地的token，跳转到登录页面
-    //如果是其他触发error
+// 添加响应拦截器
+//判断登录状态是否失效
+//状态码是200还是401,
+//如果是401，删除本地的token，跳转到登录页面
+//如果是其他触发error
 axios.interceptors.response.use(function (response) {
-    if ( response.status == 200 ){
+    // 状态码根据后端返回的位置 获取
+    if ( response.data.status == 200 ){
         // console.log("resolve后:",Promise.resolve(response))
         return Promise.resolve(response)
-    }else if (response.status == 401){
+    }else if (response.data.status == 401){
         //弹出token失效提醒
         ElMessage({
             message: response.data.message,

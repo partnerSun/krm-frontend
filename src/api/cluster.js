@@ -30,6 +30,6 @@ export const updateClusterHandler = (data) =>{
 
 //  节点
 export const getNodeListHandler = (clusterId) =>{
-    console.log("获取节点")
+    console.log("获取%s集群下的节点信息",clusterId)
     return request(API_CONFIG.getNodeListApi,{clusterId},'get',2000)
 }
