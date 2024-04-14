@@ -3,7 +3,7 @@ import request from './index.js'
 
 
 export const getClusterListHandler = () =>{
-    console.log('集群列表')
+    // console.log('集群列表')
     return request(API_CONFIG.getClusterListApi,{},'get',2000)
 }
 

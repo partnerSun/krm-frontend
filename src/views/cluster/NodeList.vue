@@ -6,26 +6,27 @@ import NodeInfo from './NodeInfo.vue';
 import {reactive,toRefs,onBeforeMount,ref,computed } from 'vue'
 
 
-const dialogFormVisible = ref(false)
+const showDialog = ref(false)
 const route=useRoute()
 const loading = ref(true)
 const search = ref('')
 const value1 = ref(true)
-const value = ref('')
-const defaultMethod=ref('Create')
+// const value = ref('')
+// const defaultMethod=ref('Create')
 
 const data = reactive({
-  items: [],
+  items:[],
+  nodeName: "",
   clusterList: [],
   clusterId: "",
-  labelForm:{},
+  nodeItems:{},
 })
 
-const {items,labelForm,clusterList,clusterId} = toRefs(data)
+const {nodeName,nodeItems,clusterList,clusterId} = toRefs(data)
 
 const getNodeList = (id) =>{
   loading.value=true
-  getNodeListHandler(id)
+   getNodeListHandler(id)
     .then((response) => {
         console.log("节点列表",response.data.Data.items)
         if (response.data.Data.items === null ){
@@ -46,7 +47,7 @@ const  getClusterList = async() => {
     .then(      
       (response) => {
         data.clusterList=response.data.Data.items
-        console.log("集群列表",data.clusterList)
+        // console.log("集群列表",data.clusterList)
       }
     )
 }
@@ -73,6 +74,7 @@ onBeforeMount( async() => {
     getNodeList(data.clusterId)
 })
 
+// 用于search
 const filterTableData = computed(() =>
   data.items.filter(
     (item) =>
@@ -83,13 +85,17 @@ const filterTableData = computed(() =>
 )
 
 const configInfo = (row) =>{
-  dialogFormVisible.value=true
-  defaultMethod.value='Edit'
-  data.labelForm=row.metadata.labels
-  console.log("节点标签内容:",data.labelForm)
+  loading.value=true
+  showDialog.value=true
+  // defaultMethod.value='Edit'
+  data.nodeItems=row
+  data.nodeName = row.metadata.name
+  console.log("节点内容:",row)
+  loading.value=false
 }
 
- 
+
+
 </script>
 
 <template>
@@ -126,32 +132,31 @@ const configInfo = (row) =>{
       v-loading="loading" 
       :data="filterTableData" 
       border 
-      
       style="width: 100%" 
       height="550"
-      :default-sort="{ prop: 'name', order: 'inscending' }"
+
       >
 
-      <el-table-column prop="name" label="主机名" sortable  width="200" align="center" >
+      <el-table-column label="主机名" sortable  width="200" align="center" >
         <template #default="scope">
           <span>{{scope.row.metadata.name}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column prop="ip" label="节点IP" width="200" align="center"> 
+      <el-table-column  label="节点IP" width="200" align="center"> 
         <template #default="scope">
           <span>{{scope.row.status.addresses[0].address}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column prop="status" label="节点状态" width="200" align="center">
+      <el-table-column  label="节点状态" width="200" align="center">
         <template #default="scope">
           <el-text v-if="scope.row.status.conditions[4].type === 'Ready' && scope.row.status.conditions[4].status === 'True'" type="success">{{ scope.row.status.conditions[4].type }}</el-text>
           <el-text v-else type="danger">{{ scope.row.status.conditions[4].type }}</el-text>
         </template>
       </el-table-column>
 
-      <el-table-column prop="roles" label="角色" width="200" align="center">
+      <el-table-column label="角色" width="200" align="center">
         <template #default="scope">
           <span v-if="scope.row.metadata.labels.hasOwnProperty('kubernetes.io/role')">{{scope.row.metadata.labels['kubernetes.io/role']}}</span>
           <span v-else>空</span>
@@ -160,11 +165,11 @@ const configInfo = (row) =>{
 
 
 
-      <el-table-column prop="scheduleStatus" label="禁止调度" align="center">
+      <el-table-column label="禁止调度" align="center">
         <el-switch v-model="value1"> </el-switch>
       </el-table-column>
 
-      <el-table-column prop="drain" label="驱逐" align="center">
+      <el-table-column  label="驱逐" align="center">
         <el-switch v-model="value1"> </el-switch>
       </el-table-column>
 
@@ -179,15 +184,15 @@ const configInfo = (row) =>{
 
     <!-- 添加时的弹窗,关闭窗口时触发重新获取列表的事件 -->
     <el-dialog 
-    @closed="closeRefresh()" 
-    v-model="dialogFormVisible" 
-    destroy-on-close
-    :title="defaultMethod=='Create'?'添加集群':'更新集群'" 
-    width="40%"
+      @closed="closeRefresh()" 
+      v-model="showDialog" 
+      destroy-on-close
+      :title="'正在编辑集群: '+clusterId + '  节点: ' + nodeName" 
+      width="40%"
     >
     <!-- 触发事件 -->
-    <!-- <Add @callback="getUser"></Add> -->
-    <NodeInfo :labelForm="labelForm"  @callback="callback()"></NodeInfo> 
+    <!-- 更新后 触发重新获取节点列表事件-->
+    <NodeInfo :nodeForm="nodeItems"  @callback="getNodeList"></NodeInfo> 
   </el-dialog>
 
 </template>

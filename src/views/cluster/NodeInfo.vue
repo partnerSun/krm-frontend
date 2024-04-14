@@ -2,18 +2,15 @@
 import { reactive,ref,toRefs,onMounted } from 'vue';
 // import {addClusterHandler, updateClusterHandler} from '../../api/cluster.js';
 import { ElMessage } from 'element-plus';
+import {object2List} from '../../utils/index.js'
 
 const data = reactive({
-    labelForm:{
-     }
+    nodeForm:{},
+    labelList:[]
 
 })
 const props = defineProps({
-    // method: {
-    //     String,
-    //     default: "Create"
-    // },
-    labelForm: {
+    nodeForm: {
         Object
     }
 })
@@ -24,55 +21,25 @@ onMounted(() => {
     //这种方法存在问题：浅拷贝 
     // data.userForm=props.userForm
     // 先把对象转换成json字符串
-    const jsonString = JSON.stringify(props.labelForm)
+    const jsonString = JSON.stringify(props.nodeForm)
     //再把json转换成object
-    data.labelForm = JSON.parse(jsonString)
-    // console.log("labelForm:",labelForm)
+    data.nodeForm = JSON.parse(jsonString)
+    data.labelList = object2List(data.nodeForm.metadata.labels)
+    console.log("节点列表:",data.nodeForm)
+    console.log("标签列表:",data.labelList)
 
 })
 
 // 转换为普通对象 给template使用
-const {labelForm} = toRefs(data)
+const {nodeForm} = toRefs(data)
 //此变量用于绑定form表单的属性
-const labelFormRef=ref()
+const nodeFormRef=ref()
 
 //重置输入框
 const resetForm = () => {
 //   if (!userFormRef) return
-    labelFormRef.value.resetFields()
+    nodeFormRef.value.resetFields()
 }
-
-const rules = reactive({
-    // 和prop标签对应
-    id: [
-      { required: true, message: '请输入集群id', trigger: 'blur' },
-      // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-     ],
-    displayname: [
-      { required: true, message: '请输入集群名称', trigger: 'blur' },
-      // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    ]
-    ,
-    area: [
-      { required: true, message: '请输入集群所在区', trigger: 'blur' },
-      // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    ]
-    ,
-    city: [
-      { required: true, message: '请输入所在城市', trigger: 'blur' },
-      // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    ]
-    ,
-    kubeconfig: [
-      { required: true, message: '请输入config配置', trigger: 'blur' },
-      // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    ]
-    ,
-    place: [
-      { required: false,  trigger: 'blur' },
-      // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    ]
-})
 
 
 // const emit = defineEmits(['callback'])
@@ -83,55 +50,44 @@ const loading =ref(false)
 const emit = defineEmits(['callback'])
 const submit = () =>{
     //通过validate函数判断表单是否符合input中的规则
-    labelFormRef.value.validate((valid)=>{
-         //如果valid为true 代表表单校验成功
-        if (valid) {
-        loading.value=true
-        updateClusterHandler(data.labelForm)
-        .then((response)=>{
-            ElMessage({
-                message: response.data.Message,
-                type: response.data.Type,
-            })
-            loading.value=false
-            emit('callback')
-        }) 
-        
-
-      } else {
+    loading.value=true
+    updateClusterHandler(data.nodeForm)
+    .then((response)=>{
         ElMessage({
-            message: "输入信息不完整",
-            type: 'error',
+            message: response.data.Message,
+            type: response.data.Type,
         })
-      }
-    })
+        loading.value=false
+        emit('callback')
+    }) 
 }
 
 </script>
 
 <template>
     <el-form 
-    :model="labelForm" 
+    :model="nodeForm" 
     el-form--label-left
-    ref="labelFormRef" 
+    ref="nodeFormRef" 
     v-loading="loading"
     >
     <div class="div-form">
-        <!-- 节点信息 -->
-        <el-form-item v-for="(item, index) in labelForm" :key="index" label="Confirm" prop="index" >
-            <div class="div-form-item">
-                <el-input v-model="labelForm[key]" autocomplete="off" />
-                 <el-input v-model="labelForm[item]" autocomplete="off" />
-            </div>
-        </el-form-item>
+        <el-tabs>
+            <el-tab-pane label="标签配置">
 
+            </el-tab-pane>
+            <el-tab-pane label="污点配置">
+                
+            </el-tab-pane>
+        </el-tabs>
     </div>
 
     <span>
-        <el-button @click="resetForm()">重置</el-button>
+        <!-- <el-button @click="resetForm()">重置</el-button> -->
         <el-button type="primary" @click="submit()">更新</el-button>
     </span>
     </el-form>
+
 </template>
 
 <style scoped> 
