@@ -31,7 +31,7 @@ onMounted(() => {
 })
 
 // 转换为普通对象 给template使用
-const {nodeForm} = toRefs(data)
+const {nodeForm,labelList} = toRefs(data)
 //此变量用于绑定form表单的属性
 const nodeFormRef=ref()
 
@@ -73,9 +73,21 @@ const submit = () =>{
     >
     <div class="div-form">
         <el-tabs>
-            <el-tab-pane label="标签配置">
+            <el-tab-pane label="标签配置" style="width: 100%">
+              <el-table :data="labelList" height="180" align="center" border  >
+                <el-table-column prop="key" label="Key"  align="center" />
+                <el-table-column prop="value" label="Value" align="center" />
+                <el-table-column fixed="right" align="center">
+                    <template #header>
+                    <el-button link type="primary" size="small">添加</el-button>
+                    </template>
+                </el-table-column>
 
+
+
+             </el-table>
             </el-tab-pane>
+
             <el-tab-pane label="污点配置">
                 
             </el-tab-pane>
@@ -107,7 +119,7 @@ const submit = () =>{
     display: flex;
     flex-direction:column;
     flex-wrap:wrap;
-    height: 200px;
+    height: 250px;
 }
 
 .div-form-item{
