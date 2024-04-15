@@ -28,8 +28,3 @@ export const updateClusterHandler = (data) =>{
     return request(API_CONFIG.updateClusterApi,data,'post',2000)
  }
 
-//  获取某个集群下的节点列表，该后端接口并没有实现此需求
-export const getNodeListHandler = (clusterId) =>{
-    console.log("获取%s集群下的节点信息",clusterId)
-    return request(API_CONFIG.getNodeListApi,{clusterId},'get',2000)
-}

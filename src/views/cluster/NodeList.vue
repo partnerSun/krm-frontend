@@ -1,6 +1,7 @@
 <script  setup>
 import { useRoute } from 'vue-router';
-import {getNodeListHandler,getClusterListHandler} from '../../api/cluster.js';
+import {getClusterListHandler} from '../../api/cluster.js';
+import {getNodeListHandler} from '../../api/node.js';
 import NodeInfo from './NodeInfo.vue';
 // import { ElMessage, ElMessageBox } from 'element-plus';
 import {reactive,toRefs,onBeforeMount,ref,computed } from 'vue'
@@ -28,7 +29,7 @@ const getNodeList = (id) =>{
   loading.value=true
    getNodeListHandler(id)
     .then((response) => {
-        console.log("节点列表",response.data.Data.items)
+        // console.log("节点列表",response.data.Data.items)
         if (response.data.Data.items === null ){
           loading.value = false;
           return;
@@ -66,7 +67,7 @@ onBeforeMount( async() => {
     await getClusterList()
     // 定义变量 接受一个默认集群id  防止传过来是个空id
     const defaultCluster = data.clusterList[0].id
-    console.log("默认集群是:",defaultCluster)
+    // console.log("默认集群是:",defaultCluster)
     //获取查询的集群id
     const curCluster = route.query.clusterId
     data.clusterId=curCluster?route.query.id:defaultCluster
@@ -90,7 +91,7 @@ const configInfo = (row) =>{
   // defaultMethod.value='Edit'
   data.nodeItems=row
   data.nodeName = row.metadata.name
-  console.log("节点内容:",row)
+  // console.log("节点内容:",row)
   loading.value=false
 }
 
@@ -176,7 +177,7 @@ const configInfo = (row) =>{
       <el-table-column fixed="right" label="操作" align="center">
         <!-- scope绑定当前操作的行 -->
         <template #default="scope">
-          <el-button link type="primary" size="small" @click="configInfo(scope.row)">配置</el-button>
+          <el-button link type="primary" size="small" @click="configInfo(scope.row)">编辑配置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -192,7 +193,7 @@ const configInfo = (row) =>{
     >
     <!-- 触发事件 -->
     <!-- 更新后 触发重新获取节点列表事件-->
-    <NodeInfo :nodeForm="nodeItems"  @callback="getNodeList"></NodeInfo> 
+    <NodeInfo :nodeForm="nodeItems" :clusterId="clusterId" @callback="getNodeList(clusterId)"></NodeInfo> 
   </el-dialog>
 
 </template>

@@ -1,4 +1,5 @@
-// 重构object数据，转换成列表+object
+import {reactive} from 'vue'
+// 重构object数据，转换成列表+object, 场景：label的转换
 export const object2List = (obj) => {
     let list = []
     if (obj == null){
@@ -13,6 +14,26 @@ export const object2List = (obj) => {
     }
     return list
 }
+
+export const list2Object = (list) => {
+    console.log("要转换的list:",list)
+    const obj = {}
+    if ( list == null || list == undefined){
+        return obj
+    }
+    for (let i =0;i<list.length;i++){
+        const item = list[i]
+        // item: {key: "xxx", value: "xxxx"} ==>{xxx: "xxxx"}
+        if (item.key == ""){
+            continue
+        }
+        obj[item.key] = item.value
+    }
+    console.log("转换后的obj",obj)
+    return obj
+}
+
+
 // 传入两个值，table列表、所删行的index
 // index可通过scope.$index获取
 export const deleteTableRow = (list,index) => {
@@ -20,22 +41,10 @@ export const deleteTableRow = (list,index) => {
 }
 
 export const addTableRow = (list) => {
-    // if (type == "label"){
-    //     const labelObj = {
-    //         key:"",
-    //         value:"",
-            
-    //     }
-    //     list.push(labelObj)
-    // }else if (type == "taint"){
-    //     const taintObj = {
-    //         key:"",
-    //         value:"",
-    //         effect:""
-    //     }
-    //     list.push(taintObj)
-    // }
+    console.log("初始list:",list)
+
     const Obj = {}
-    list.push(Obj)
+    list.unshift(Obj)
+
     console.log("添加后的table内容: ",list)
 }

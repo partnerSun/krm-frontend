@@ -16,6 +16,7 @@ export const API_CONFIG  = {
     deleteClusterApi: `${BASE_URL}/cluster/delete`,
     // 节点
     getNodeListApi: `${BASE_URL}/node/list`,
+    updateNodeApi: `${BASE_URL}/node/update`,
     // ns
     getNamespaceListApi: `${BASE_URL}/namespace/list`,
     addNamespaceApi: `${BASE_URL}/namespace/create`,

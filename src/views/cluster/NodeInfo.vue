@@ -1,8 +1,8 @@
 <script  setup>
 import { reactive,ref,toRefs,onMounted } from 'vue';
-// import {addClusterHandler, updateClusterHandler} from '../../api/cluster.js';
+import { updateNodeHandler} from '../../api/node.js';
 import { ElMessage } from 'element-plus';
-import {object2List,deleteTableRow,addTableRow} from '../../utils/index.js'
+import {object2List,deleteTableRow,addTableRow,list2Object} from '../../utils/index.js'
 
 const data = reactive({
     nodeForm:{},
@@ -21,12 +21,23 @@ const data = reactive({
             value: 'PreferNoSchedule',
             label: '尽量不调度'
         },
-    ]
+    ],
+    updateNodeInfo:{
+        metadata:{
+            labels:{}
+        },
+        spec:{
+            taints:[]
+        }
+    }
 })
 const props = defineProps({
     nodeForm: {
         Object
-    }
+    },
+    clusterId:{
+        String
+    },
 })
 
 // 生命周期，注意数据挂载的顺序
@@ -39,10 +50,12 @@ onMounted(() => {
     //再把json转换成object
     data.nodeForm = JSON.parse(jsonString)
     data.labelList = object2List(data.nodeForm.metadata.labels)
-    data.taintList = data.nodeForm.spec.taints
-    console.log("节点列表:",data.nodeForm)
-    console.log("标签列表:",data.labelList)
-    console.log("污点列表:",data.taintList)
+
+    if (data.nodeForm.spec.taints == undefined){
+        data.taintList = []
+    }else{
+        data.taintList = data.nodeForm.spec.taints
+    }
 
 })
 
@@ -67,7 +80,15 @@ const emit = defineEmits(['callback'])
 const submit = () =>{
     //通过validate函数判断表单是否符合input中的规则
     loading.value=true
-    updateClusterHandler(data.nodeForm)
+    //转换后的label
+    const nLabel = list2Object(data.labelList)
+    data.nodeForm.metadata.labels = nLabel
+    // 返回所需的信息
+    // data.updateNodeInfo.metadata.labels = nLabel
+    // data.updateNodeInfo.spec.taints = data.taintList
+    
+    // console.log("更新后的节点信息",data.updateNodeInfo)
+    updateNodeHandler(props.clusterId,data.nodeForm.metadata.name,data.nodeForm.metadata.labels,data.taintList)
     .then((response)=>{
         ElMessage({
             message: response.data.Message,
@@ -78,6 +99,14 @@ const submit = () =>{
     }) 
 }
 
+const addTaintRow = () =>{
+    const obj = {
+        key:"",
+        value:"",
+        effect:""
+    }
+    data.nodeForm.spec.taints.unshift(obj)
+}
 </script>
 
 <template>

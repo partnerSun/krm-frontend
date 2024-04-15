@@ -109,6 +109,7 @@ const request = (url='',data={},method='get',timeout=5000) =>{
                 }
             )
         }else if (methodLower=== 'post'){
+            // console.log("post的data内容:",data)
             axios({
                 method: methodLower,
                 data: data,
