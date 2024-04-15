@@ -188,7 +188,7 @@ const configInfo = (row) =>{
       v-model="showDialog" 
       destroy-on-close
       :title="'正在编辑集群: '+clusterId + '  节点: ' + nodeName" 
-      width="40%"
+      width="39%"
     >
     <!-- 触发事件 -->
     <!-- 更新后 触发重新获取节点列表事件-->
