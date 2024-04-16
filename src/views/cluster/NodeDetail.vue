@@ -1,11 +1,16 @@
 <script setup>
 import {computed,ref} from 'vue'
 import {
-  Iphone,
-  Location,
-  OfficeBuilding,
-  Tickets,
-  User,
+  Tools,
+  UserFilled,
+  Files,
+  Histogram,
+  Platform,
+  Cpu,
+  InfoFilled,
+  Grid,
+  TrendCharts,
+  LocationFilled
 } from '@element-plus/icons-vue'
 
 const props = defineProps({
@@ -16,8 +21,6 @@ const props = defineProps({
     nodeName:"",
 
 })
-
-const size = ref('large')
 
 const iconStyle = computed(() => {
     // vue会把驼峰式 自动转换成margin-right
@@ -41,7 +44,7 @@ const iconStyle = computed(() => {
     <el-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle"> <user /></el-icon>
+          <el-icon :style="iconStyle"> <Platform /></el-icon>
           <span>主机名</span>
         </div>
       </template>
@@ -51,7 +54,7 @@ const iconStyle = computed(() => {
     <el-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle"><iphone /></el-icon>
+          <el-icon :style="iconStyle"><LocationFilled /></el-icon>
           <span>IP</span>
         </div>
       </template>
@@ -62,7 +65,7 @@ const iconStyle = computed(() => {
       <template #label>
         <div class="cell-item">
           <el-icon style="margin-right: 8px;">
-            <location />
+            <UserFilled />
           </el-icon>
           <span>角色</span>
         </div>
@@ -75,7 +78,7 @@ const iconStyle = computed(() => {
       <template #label>
         <div class="cell-item">
           <el-icon :style="iconStyle">
-            <tickets />
+            <Histogram />
           </el-icon>
           <span>节点状态</span>
         </div>
@@ -88,9 +91,9 @@ const iconStyle = computed(() => {
       <template #label>
         <div class="cell-item">
           <el-icon :style="iconStyle">
-            <office-building />
+            <Files />
           </el-icon>
-          <span>pod</span>
+          <span>Pod</span>
         </div>
       </template>
       <el-button link type="primary">查看</el-button>
@@ -100,7 +103,7 @@ const iconStyle = computed(() => {
       <template #label>
         <div class="cell-item">
           <el-icon :style="iconStyle">
-            <office-building />
+            <Grid />
           </el-icon>
           <span>系统</span>
         </div>
@@ -112,7 +115,7 @@ const iconStyle = computed(() => {
       <template #label>
         <div class="cell-item">
           <el-icon :style="iconStyle">
-            <office-building />
+            <TrendCharts />
           </el-icon>
           <span>Runtime</span>
         </div>
@@ -124,9 +127,9 @@ const iconStyle = computed(() => {
       <template #label>
         <div class="cell-item">
           <el-icon :style="iconStyle">
-            <office-building />
+            <Cpu />
           </el-icon>
-          <span>CPU架构</span>
+          <span>Cpu架构</span>
         </div>
       </template>
       {{props.nodeDetailItems.status.nodeInfo.architecture}}
@@ -137,7 +140,7 @@ const iconStyle = computed(() => {
       <template #label>
         <div class="cell-item">
           <el-icon :style="iconStyle">
-            <office-building />
+            <InfoFilled />
           </el-icon>
           <span>版本</span>
         </div>
@@ -150,7 +153,7 @@ const iconStyle = computed(() => {
       <template #label>
         <div class="cell-item">
           <el-icon :style="iconStyle">
-            <office-building />
+            <Tools />
           </el-icon>
           <span>系统内核</span>
         </div>
