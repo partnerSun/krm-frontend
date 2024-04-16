@@ -5,7 +5,7 @@ import { ElMessage } from 'element-plus';
 import {object2List,deleteTableRow,addTableRow,list2Object} from '../../utils/index.js'
 
 const data = reactive({
-    nodeForm:{},
+    nodeItems:{},
     labelList:[],
     taintList:[],
     taintOption:[
@@ -32,7 +32,7 @@ const data = reactive({
     }
 })
 const props = defineProps({
-    nodeForm: {
+    nodeItems: {
         Object
     },
     clusterId:{
@@ -46,32 +46,24 @@ onMounted(() => {
     //这种方法存在问题：浅拷贝 
     // data.userForm=props.userForm
     // 先把对象转换成json字符串
-    const jsonString = JSON.stringify(props.nodeForm)
+    const jsonString = JSON.stringify(props.nodeItems)
     //再把json转换成object
-    data.nodeForm = JSON.parse(jsonString)
-    data.labelList = object2List(data.nodeForm.metadata.labels)
+    data.nodeItems = JSON.parse(jsonString)
+    data.labelList = object2List(data.nodeItems.metadata.labels)
 
-    if (data.nodeForm.spec.taints == undefined){
+    if (data.nodeItems.spec.taints == undefined){
         data.taintList = []
     }else{
-        data.taintList = data.nodeForm.spec.taints
+        data.taintList = data.nodeItems.spec.taints
     }
 
 })
 
 // 转换为普通对象 给template使用
-const {nodeForm,labelList,taintList,taintOption} = toRefs(data)
+const {nodeItems,labelList,taintList,taintOption} = toRefs(data)
 //此变量用于绑定form表单的属性
-const nodeFormRef=ref()
+const nodeItemsRef=ref()
 
-//重置输入框
-const resetForm = () => {
-//   if (!userFormRef) return
-    nodeFormRef.value.resetFields()
-}
-
-
-// const emit = defineEmits(['callback'])
 
 const loading =ref(false)
 
@@ -82,13 +74,10 @@ const submit = () =>{
     loading.value=true
     //转换后的label
     const nLabel = list2Object(data.labelList)
-    data.nodeForm.metadata.labels = nLabel
+    data.nodeItems.metadata.labels = nLabel
     // 返回所需的信息
-    // data.updateNodeInfo.metadata.labels = nLabel
-    // data.updateNodeInfo.spec.taints = data.taintList
-    
-    // console.log("更新后的节点信息",data.updateNodeInfo)
-    updateNodeHandler(props.clusterId,data.nodeForm.metadata.name,data.nodeForm.metadata.labels,data.taintList)
+
+    updateNodeHandler(props.clusterId,data.nodeItems.metadata.name,data.nodeItems.metadata.labels,data.taintList)
     .then((response)=>{
         ElMessage({
             message: response.data.Message,
@@ -99,21 +88,14 @@ const submit = () =>{
     }) 
 }
 
-const addTaintRow = () =>{
-    const obj = {
-        key:"",
-        value:"",
-        effect:""
-    }
-    data.nodeForm.spec.taints.unshift(obj)
-}
+
 </script>
 
 <template>
     <el-form 
-    :model="nodeForm" 
+    :model="nodeItems" 
     el-form--label-left
-    ref="nodeFormRef" 
+    ref="nodeItemsRef" 
     v-loading="loading"
     >
     <div class="div-tab">

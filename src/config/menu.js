@@ -27,11 +27,11 @@ export const MENU_CONFIG = [
             // },
             {
                 index: "/cluster/list",
-                title: "查看集群"
+                title: "集群管理"
             },           
             {
                 index: "/node/list",
-                title: "查看节点"
+                title: "节点管理"
             },
             {
                 index: "/namespace/list",
